@@ -48,7 +48,7 @@ public class AddGraph {
 		Store store;
 		try {
 			System.out.println("Start");
-			store = new Store("http://localhost:8080");
+			store = new Store("http://192.168.10.17:8080");
 			String response = store.add("http://example.org/musicGraph",
 					exampleRDFGraph, Store.InputFormat.XML);
 			System.out.println(response);
