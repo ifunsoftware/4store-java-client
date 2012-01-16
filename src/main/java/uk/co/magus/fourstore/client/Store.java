@@ -411,6 +411,38 @@ public class Store {
         }
     }
 
+    public void deleteModel(Model model, String graph) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) updateURL
+                .openConnection();
+
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        connection.setRequestMethod("POST");
+
+        DataOutputStream os = new DataOutputStream(connection.getOutputStream());
+
+        EncodedStringWriter writer = new EncodedStringWriter(os);
+
+        try{
+
+            os.writeBytes("&update=");
+
+            writer.write("DELETE DATA { GRAPH <" + graph + "> {\n");
+            model.write(writer, "N-TRIPLE");
+            writer.write(" } } \n");
+
+        }finally {
+            writer.flush();
+            writer.close();
+        }
+
+        String error = readResponse(connection);
+
+        if(error.startsWith("error")){
+            throw new IOException("Failed to execute update: " + error);
+        }
+    }
+
 
 
     private String readResponse(HttpURLConnection connection)

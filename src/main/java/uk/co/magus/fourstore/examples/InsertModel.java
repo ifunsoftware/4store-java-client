@@ -31,9 +31,18 @@ public class InsertModel {
         model.read(new StringReader(xmlModel), null);
         store.insertModel(model, "test");
 
-        System.out.println(store.query("SELECT * WHERE {\n" +
+        System.out.println("After insert");
+        System.out.println(store.query("SELECT * FROM <test> WHERE {\n" +
                 " ?s ?p ?o\n" +
                 "} LIMIT 10"));
-        
+
+        store.deleteModel(model, "test");
+
+
+        System.out.println("After delete");
+        System.out.println(store.query("SELECT * FROM <test> WHERE {\n" +
+                " ?s ?p ?o\n" +
+                "} LIMIT 10"));
+
     }
 }
